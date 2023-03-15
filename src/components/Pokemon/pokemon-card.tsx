@@ -1,9 +1,11 @@
 import React, { FunctionComponent, useState } from 'react';
-import Pokemon from '../models/pokemon';
-import './pokemon-card.css'
+import { formatDate } from '../../helpers/utils';
+import Pokemon from '../../models/pokemon';
+import './style/pokemon-card.css'
+import PokemonTypes from './pokemon-type';
 
 type Props = {
-    pokemon : Pokemon;
+    pokemon: Pokemon;
     borderColor?: string;
 };
 
@@ -19,11 +21,16 @@ const PokemonCard: FunctionComponent<Props> = ({ pokemon, borderColor = '#009688
             <div className="card horizontal" style={{ borderColor: colorBorderColor }}>
                 <div className="card-image">
                     <img src={pokemon.picture} alt={pokemon.name} />
-                </div> 
+                </div>
                 <div className="card-stacked">
                     <div className="card-content">
                         <p>{pokemon.name}</p>
-                        <p><small>{pokemon.created.toString()}</small></p>
+                        <p><small>{formatDate(pokemon.created)}</small></p>
+                        {
+                            pokemon.types.map((type) => (
+                                <PokemonTypes key={type} type={type} />
+                            ))
+                        }
                     </div>
                 </div>
             </div>
