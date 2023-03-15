@@ -1,15 +1,11 @@
-import React, { useState }from 'react';
-import logo from './logo.svg';
+import React from 'react';
 import './App.css';
+import PokemonList from './components/pokemon-list';
 
 function App() {
-  const [name, setName] = useState('Test')
-  // const name: String = "test";
 
   return (
-    <div className="App">
-        <h1> J'affiche mon nom : { name } </h1>
-    </div>
+    <PokemonList/>
   );
 }
 
