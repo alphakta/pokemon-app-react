@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from "react";
-import { formatType } from "../../helpers/utils";
+import { formatType } from "../../../helpers/utils";
 
 type Props = {
     type: string;
