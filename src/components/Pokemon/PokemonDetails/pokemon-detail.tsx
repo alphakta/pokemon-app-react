@@ -1,6 +1,7 @@
 import React, { FunctionComponent, useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { formatDate, formatType } from '../../../helpers/utils';
+import { formatType } from '../../../helpers/utils';
+// import { formatDate } from '../../../helpers/utils';
 import POKEMONS from '../../../models/mock-pokemon';
 import Pokemon from '../../../models/pokemon';
 
@@ -26,6 +27,9 @@ const PokemonsDetail: FunctionComponent = () => {
             <div className="card hoverable"> 
               <div className="card-image">
                 <img src={pokemon.picture} alt={pokemon.name} style={{width: '250px', margin: '0 auto'}}/>
+                <Link to={`/pokemon/edit/${pokemon.id}`} className='btn btn-floating halfway-fab waves-effect waves-light'> 
+                <i className='material-icon'>edit</i>
+                </Link>
               </div>
               <div className="card-stacked">
                 <div className="card-content">
@@ -50,10 +54,10 @@ const PokemonsDetail: FunctionComponent = () => {
                            <span key={type} className={formatType(type)}>{type}</span>
                           ))}</td> 
                       </tr> 
-                      <tr> 
+                      {/* <tr> 
                         <td>Date de création</td> 
                         <td>{formatDate(pokemon.created)}</td> 
-                      </tr>
+                      </tr> */}
                     </tbody>
                   </table>
                 </div>

@@ -7,6 +7,7 @@ import ErrorPage from './components/ErrorPage/error-page';
 import PokemonList from './components/Pokemon/PokemonList/pokemon-list';
 import PokemonDetail from './components/Pokemon/PokemonDetails/pokemon-detail';
 import Navbar from './components/Navbar/navbar';
+import PokemonEdit from './components/Pokemon/PokemonEdit/pokemon-edit';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
       {
         path: "/pokemon/:id",
         element: <PokemonDetail />
+      },
+      {
+        path: "/pokemon/edit/:id",
+        element: <PokemonEdit />
       }
     ],
     errorElement: <ErrorPage/>

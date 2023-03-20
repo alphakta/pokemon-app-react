@@ -7,7 +7,6 @@ export default class Pokemon implements IPokemon {
     name: string;
     picture: string;
     types: Array<string>;
-    created: Date;
 
     constructor(
         id: number,
@@ -16,7 +15,6 @@ export default class Pokemon implements IPokemon {
         name: string = 'name',
         picture: string = 'http://...',
         types: Array<string> = ['Normal'],
-        created: Date = new Date()
     ) {
         this.id = id;
         this.hp = hp;
@@ -24,6 +22,5 @@ export default class Pokemon implements IPokemon {
         this.name = name;
         this.picture = picture;
         this.types = types;
-        this.created = created;
     }
 }

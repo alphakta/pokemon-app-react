@@ -5,5 +5,4 @@ export default interface IPokemon {
     name: string;
     picture: string;
     types: Array<string>;
-    created: Date;
 }
