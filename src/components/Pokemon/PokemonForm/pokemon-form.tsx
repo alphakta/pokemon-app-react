@@ -1,20 +1,81 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import { formatType } from '../../../helpers/utils';
+import { useNavigate } from 'react-router-dom';
 import Pokemon from '../../../models/pokemon';
   
 type Props = {
   pokemon: Pokemon
 };
   
+type Field = {
+  value: any,
+  error?: string,
+  isValid?: boolean
+}
+
+type Form = {
+  name: Field,
+  hp: Field,
+  cp: Field,
+  types: Field
+}
+
 const PokemonForm: FunctionComponent<Props> = ({pokemon}) => {
   
   const types: string[] = [
     'Plante', 'Feu', 'Eau', 'Insecte', 'Normal', 'Electrik',
     'Poison', 'Fée', 'Vol', 'Combat', 'Psy'
   ];
-   
+
+  const [form, setForm] = useState<Form>({
+      name: { value: pokemon.name, isValid: true},
+      hp: { value: pokemon.hp, isValid: true},
+      cp: { value: pokemon.cp, isValid: true},
+      types: { value: pokemon.types, isValid: true},
+    }
+  )
+
+  const navigate = useNavigate();
+  
+  console.log(form)
+  const hasType = (type: string): boolean => {
+    return form.types.value.includes(type);
+  }
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    const fieldName = e.target.name;
+    const fieldValue = e.target.value;
+    const newField: { [key: string]: Field } = { [fieldName]: { value: fieldValue } };
+
+    // Update le state, avec les nouvelles données du 2ème paramètre, ici <newField>
+    setForm({...form, ...newField})
+  }
+
+  const selectType = (type: string, e: React.ChangeEvent<HTMLInputElement>): void => {
+    const checked = e.target.checked;
+    let newField: Field;
+    let newTypes: string[]
+
+    if(checked){
+      // Si l'utilisateur coche un type, on l'ajoute à la liste des types du pokemon
+      newTypes = form.types.value.concat([type])
+    } else {
+      // Si l'utilisateur décoche un type, on le retire de la liste des types du pokemon
+      newTypes = form.types.value.filter((currentType: string) => currentType !== type)
+    }
+
+    newField = { value: newTypes }
+    setForm({...form, ...{ types: newField }})
+  }
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    console.log(form)
+    navigate(`/pokemon/${pokemon.id}`)
+  }
+
   return (
-    <form>
+    <form onSubmit={(e) => handleSubmit(e)}>
       <div className="row">
         <div className="col s12 m8 offset-m2">
           <div className="card hoverable"> 
@@ -26,17 +87,17 @@ const PokemonForm: FunctionComponent<Props> = ({pokemon}) => {
                 {/* Pokemon name */}
                 <div className="form-group">
                   <label htmlFor="name">Nom</label>
-                  <input id="name" type="text" className="form-control"></input>
+                  <input id="name" name="name" type="text" className="form-control" value={form.name.value} onChange={(e) => handleInputChange(e)}></input>
                 </div>
                 {/* Pokemon hp */}
                 <div className="form-group">
                   <label htmlFor="hp">Point de vie</label>
-                  <input id="hp" type="number" className="form-control"></input>
+                  <input id="hp" name="hp" type="number" className="form-control" value={form.hp.value} onChange={(e) => handleInputChange(e)}></input>
                 </div>
                 {/* Pokemon cp */}
                 <div className="form-group">
                   <label htmlFor="cp">Dégâts</label>
-                  <input id="cp" type="number" className="form-control"></input>
+                  <input id="cp" name="cp" type="number" className="form-control" value={form.cp.value} onChange={(e) => handleInputChange(e)}></input>
                 </div>
                 {/* Pokemon types */}
                 <div className="form-group">
@@ -44,7 +105,7 @@ const PokemonForm: FunctionComponent<Props> = ({pokemon}) => {
                   {types.map(type => (
                     <div key={type} style={{marginBottom: '10px'}}>
                       <label>
-                        <input id={type} type="checkbox" className="filled-in"></input>
+                        <input id={type} type="checkbox" className="filled-in" value={type} checked={hasType(type)} onChange={(e) => selectType(type, e)}></input>
                         <span>
                           <p className={formatType(type)}>{ type }</p>
                         </span>
